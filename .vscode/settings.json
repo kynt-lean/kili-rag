@@ -1,0 +1,7 @@
+{
+  "python.analysis.extraPaths": ["api"],
+  "python.analysis.typeCheckingMode": "standard",
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportAttributeAccessIssue": "warning"
+  }
+}
