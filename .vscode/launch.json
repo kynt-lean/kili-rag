@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Langchain serve",
+            "name": "Langchain Serve",
             "type": "debugpy",
             "request": "launch",
             "cwd": "${workspaceFolder}",
@@ -17,7 +17,7 @@
             ],
         },
         {
-            "name": "Uvicorn serve",
+            "name": "Uvicorn Serve",
             "type": "debugpy",
             "request": "launch",
             "cwd": "${workspaceFolder}",

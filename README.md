@@ -98,7 +98,7 @@ poetry update $TEMPLATE_NAME
 focus on server.py
 MacOS: Cmd + Shift + P
 Others OS: Ctrl + Shift + P
->>Python: Restart Language Server
+>Python: Restart Language Server
 ```
 
 ## Removing templates
@@ -139,7 +139,7 @@ necessary for your application.
 
 In the below example, we inject the `OPENAI_API_KEY` and `TAVILY_API_KEY` environment
 variable with the value set in my local environment
-(`$OPENAI_API_KEY`, `TAVILY_API_KEY`)
+(`$OPENAI_API_KEY`, `$TAVILY_API_KEY`)
 
 We also expose port 8080 with the `-p 8080:8080` option.
 

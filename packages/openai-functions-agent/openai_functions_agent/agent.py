@@ -3,8 +3,8 @@ from typing import List, Tuple
 from langchain.agents import AgentExecutor
 from langchain.agents.format_scratchpad import format_to_openai_function_messages
 from langchain.agents.output_parsers import OpenAIFunctionsAgentOutputParser
-from langchain_community.chat_models import ChatOpenAI
-from langchain_community.tools.convert_to_openai import format_tool_to_openai_function
+from langchain_openai import ChatOpenAI
+from langchain_core.utils.function_calling import convert_to_openai_function
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langchain_community.utilities.tavily_search import TavilySearchAPIWrapper
 from langchain_core.messages import AIMessage, HumanMessage
@@ -35,7 +35,7 @@ prompt = ChatPromptTemplate.from_messages(
     ]
 )
 
-llm_with_tools = llm.bind(functions=[format_tool_to_openai_function(t) for t in tools])
+llm_with_tools = llm.bind(functions=[convert_to_openai_function(t) for t in tools])
 
 
 def _format_chat_history(chat_history: List[Tuple[str, str]]):
