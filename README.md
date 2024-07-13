@@ -6,6 +6,10 @@ Install poetry packages manager if it has not existed yet
 
 ```bash
 pip install -U poetry
+# enable poetry tab completion for bash
+poetry completions bash >> ~/.bash_completion
+# or for zsh
+poetry completions zsh > ~/.zfunc/_poetry # specify the folder included in $fpath
 ```
 
 Configure poetry virtualenvs settings
@@ -36,6 +40,8 @@ Serve langchain server from command line
 
 ```bash
 poetry run langchain serve --port 3100
+# or directly using uvicorn
+poetry run uvicorn app.server:app --port 3100 --reload
 ```
 
 Configure launch.json to debug
@@ -43,7 +49,7 @@ Configure launch.json to debug
 ```json
 "configurations": [
     {
-        "name": "LangServe",
+        "name": "Langchain Serve",
         "type": "debugpy",
         "request": "launch",
         "cwd": "${workspaceFolder}",
@@ -53,7 +59,19 @@ Configure launch.json to debug
             "--port",
             "3100",
         ],
-        "jinja": true
+    },
+    {
+        "name": "Uvicorn Serve",
+        "type": "debugpy",
+        "request": "launch",
+        "cwd": "${workspaceFolder}",
+        "program": "${workspaceFolder}/.venv/bin/uvicorn",
+        "args": [
+            "app.server:app",
+            "--port",
+            "3100",
+            "--reload"
+        ],
     }
 ]
 ```
@@ -72,12 +90,9 @@ poetry update $TEMPLATE_NAME
 # example:
 >poetry update openai-functions-agent
 
-# use template and expose api
-from $TEMPLATE_NAME import $Runnable
-add_routes(app, $Runnable, path="/$TEMPLATE_NAME") // could expose any path
+# expose template api following by ./packages/$TEMPLATE_NAME/README.md
 # example:
->from openai_functions_agent import agent_executor as openai_functions_agent_chain
->add_routes(app, openai_functions_agent_chain, path="/openai-functions-agent")
+>code ./packages/openai-functions-agent/README.md
 
 # restart language server to recognize added template module
 focus on server.py
@@ -98,6 +113,8 @@ poetry remove $TEMPLATE_NAME
 poetry run langchain app remove $TEMPLATE_NAME
 # example:
 >poetry run langchain app remove openai-functions-agent
+
+# remove template api endpoint from server.py
 ```
 
 ## Running in Docker
@@ -120,12 +137,12 @@ note it for use in the next step.
 To run the image, you'll need to include any environment variables
 necessary for your application.
 
-In the below example, we inject the `OPENAI_API_KEY` environment
+In the below example, we inject the `OPENAI_API_KEY` and `TAVILY_API_KEY` environment
 variable with the value set in my local environment
-(`$OPENAI_API_KEY`)
+(`$OPENAI_API_KEY`, `TAVILY_API_KEY`)
 
 We also expose port 8080 with the `-p 8080:8080` option.
 
 ```shell
-docker run -e OPENAI_API_KEY=$OPENAI_API_KEY -p 8080:8080 kili-rag
+docker run -e OPENAI_API_KEY=$OPENAI_API_KEY -e TAVILY_API_KEY=$TAVILY_API_KEY -p 8080:8080 kili-rag
 ```
