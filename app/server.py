@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 from langserve import add_routes
-from openai_functions_agent import agent_executor as openai_functions_agent_chain
+from openai_functions_agent import agent_executor as openai_functions_agent_chain, agent_gmail_executor as openai_functions_agent_gmail_chain
 
 app = FastAPI()
 
@@ -13,6 +13,8 @@ async def redirect_root_to_docs():
 
 # Edit this to add the chain you want to add
 add_routes(app, openai_functions_agent_chain, path="/openai-functions-agent")
+
+add_routes(app, openai_functions_agent_gmail_chain, path="/openai-functions-agent-gmail")
 
 if __name__ == "__main__":
     import uvicorn
